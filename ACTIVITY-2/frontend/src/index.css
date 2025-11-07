@@ -1,0 +1,330 @@
+body {
+  background: linear-gradient(135deg, #0f1233 0%, #2b254a 60%, #2f2b3f 100%); 
+  color: #eaeaea;
+  font-family: "Poppins", sans-serif;
+  min-height: 100vh;
+  margin: 0;
+  display: block; 
+}
+
+.auth-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 40px 50px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  width: 400px;
+  animation: fadeIn 0.5s ease;
+}
+
+.auth-card h2 {
+  color: #ffffff;
+  margin-bottom: 25px;
+}
+
+.auth-card input {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.auth-card input:focus {
+  border-color: #6dd5fa;
+  outline: none;
+  box-shadow: 0 0 8px #6dd5fa;
+}
+
+.btn-gradient {
+  width: 100%;
+  background: linear-gradient(90deg, #6dd5fa, #2980b9);
+  border: none;
+  color: #fff;
+  font-weight: 600;
+  padding: 10px;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+.btn-gradient:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(90deg, #2980b9, #6dd5fa);
+}
+
+a {
+  color: #6dd5fa;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+
+
+
+@keyframes fadeInNotes {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUpForm {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade {
+  animation: fadeInNotes 0.5s ease forwards;
+}
+
+.animate-slideup {
+  animation: slideUpForm 0.6s ease;
+}
+
+
+.empty-notes {
+  opacity: 0.8;
+  font-size: 1.1rem;
+}
+.empty-notes .empty-icon {
+  font-size: 3rem;
+  animation: floatIcon 3s ease-in-out infinite;
+}
+
+@keyframes floatIcon {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+
+.note-card {
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(12px);
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+  padding: 1.1rem; 
+  min-height: 140px; 
+}
+
+.note-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+}
+
+
+.note-header h5 {
+  background: linear-gradient(90deg, #6dd5fa, #2980b9);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+
+.btn-gradient {
+  box-shadow: 0 0 10px rgba(109, 213, 250, 0.4);
+}
+.btn-gradient:hover {
+  box-shadow: 0 0 20px rgba(109, 213, 250, 0.7);
+}
+
+
+.notes-page .container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 3.5rem 2rem; 
+}
+
+.note-form {
+  max-width: 900px;
+  margin: 0 auto 2.5rem auto;
+  padding: 0.8rem;
+}
+
+.notes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2rem; 
+  justify-content: center;
+}
+
+
+@media (max-width: 768px) {
+  .notes-page .container {
+    max-width: 95%;
+    padding: 2rem 1rem;
+  }
+  .note-form {
+    max-width: 100%;
+  }
+}
+
+
+.notes-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 3.5rem 1rem 5rem 1rem;
+}
+.notes-card {
+  width: 100%;
+  max-width: 820px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+  border: 1px solid rgba(255,255,255,0.04);
+  border-radius: 14px;
+  padding: 1.25rem 1.5rem;
+  box-shadow: 0 18px 40px rgba(0,0,0,0.55);
+}
+.notes-header {
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+.notes-icon {
+  font-size: 2.1rem;
+}
+.notes-title {
+  color: #fff;
+  font-size: 2.4rem;
+  margin: 0;
+  font-weight: 700;
+}
+.create-btn {
+  background: linear-gradient(90deg,#7b2cff 0%,#a54bff 50%,#6e3cff 100%);
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 999px;
+  font-weight: 600;
+  box-shadow: 0 10px 30px rgba(123,44,255,0.18);
+  cursor: pointer;
+}
+.create-btn:hover { transform: translateY(-2px); }
+
+.note-card {
+  background: #fff;
+  color: #222;
+  border-radius: 8px;
+  padding: 1.25rem 1.25rem;
+  min-height: 140px;
+  position: relative;
+}
+.note-card p { color: #333; }
+.note-delete {
+  position: absolute;
+  right: 12px;
+  top: 12px; 
+  background: #ff6b6b; 
+  color: #fff;
+  border: none;
+  padding: 6px 8px;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.12);
+}
+.note-delete:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255,107,107,0.18);
+}
+
+
+.note-card .note-header h5 {
+  color: #000;
+  font-weight: 700;
+}
+
+
+.note-form.card-glass {
+  background: transparent; 
+  box-shadow: none;
+}
+.note-form .form-control {
+  background: #fff;
+  color: #222;
+  border-radius: 8px;
+  border: none;
+  padding: 18px;
+  box-shadow: 0 6px 18px rgba(16,24,40,0.06);
+}
+.note-form h3 { color: #fff; }
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.auth-card p, .auth-card .mt-3 { text-align: center; }
+.notes-card h3 {
+  font-size: 1.4rem;
+  margin-bottom: 0.75rem;
+}
+.notes-card .note-form {
+  margin-bottom: 1rem;
+}
+.notes-card .form-control {
+  background: rgba(255,255,255,0.04);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+.notes-card .note-card {
+  background: rgba(0,0,0,0.12);
+  border: 1px solid rgba(255,255,255,0.03);
+  border-radius: 10px;
+  padding: 0.9rem;
+}
+.notes-card .note-header h5 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+.notes-card .note-card p {
+  color: #e6e6e6;
+  margin: 0.5rem 0;
+}
+.notes-card .empty-notes {
+  padding: 2rem 0;
+}
+
+.notes-page .container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 3.5rem 2rem;
+}
+
+
+.logout-btn {
+  background: linear-gradient(90deg, #ff7a7a, #ff4b4b);
+  color: #fff;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-weight: 600;
+  box-shadow: 0 6px 14px rgba(255, 75, 75, 0.18);
+}
+.logout-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(255, 75, 75, 0.22);
+}
