@@ -13,10 +13,38 @@ import { AuthProvider } from './hooks/useAuth';
 
 const qc = new QueryClient();
 const theme = createTheme({
-  palette: { mode: 'light', primary: { main: '#3f51b5' }, background: { default: '#f5f7fa' } },
+  palette: {
+    mode: 'light',
+    primary: { main: '#8B6F47' },
+    secondary: { main: '#D4C5B9' },
+    background: { default: '#F5F1ED', paper: '#FFFCF9' },
+    text: { primary: '#3E3530', secondary: '#8B7D77' },
+  },
   typography: { fontFamily: 'Inter, system-ui, Roboto, sans-serif' },
   shape: { borderRadius: 12 },
-  components: { MuiButton: { styleOverrides: { root: { textTransform: 'none', fontWeight: 600 } } } },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: { textTransform: 'none', fontWeight: 600, borderRadius: 8 },
+        contained: { boxShadow: '0 2px 8px rgba(139, 111, 71, 0.15)' },
+      },
+    },
+    MuiCard: {
+      styleOverrides: {
+        root: { borderRadius: 12, boxShadow: '0 2px 12px rgba(0, 0, 0, 0.08)', border: '1px solid #EBE3DB' },
+      },
+    },
+    MuiPaper: {
+      styleOverrides: {
+        root: { borderRadius: 12, border: '1px solid #EBE3DB' },
+      },
+    },
+    MuiTextField: {
+      styleOverrides: {
+        root: { '& .MuiOutlinedInput-root': { borderRadius: 8 } },
+      },
+    },
+  },
 });
 
 export default function App() {
@@ -28,11 +56,11 @@ export default function App() {
           <BrowserRouter>
             <AuthProvider>
               <Routes>
-                <Route path="" element={<Layout />}> 
+                <Route path="" element={<Layout />}>
                   <Route index element={<Home />} />
                   <Route path="login" element={<AuthLogin />} />
                   <Route path="register" element={<AuthRegister />} />
-                  <Route element={<ProtectedRoute />}> 
+                  <Route element={<ProtectedRoute />}>
                     <Route path="posts/new" element={<CreatePost />} />
                   </Route>
                   <Route path="posts/:id" element={<PostDetail />} />

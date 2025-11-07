@@ -4,6 +4,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Box, Typography, Divider, TextField, Button, Stack, Paper, IconButton } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import SaveIcon from '@mui/icons-material/Save';
+import CancelIcon from '@mui/icons-material/Close';
 import dayjs from 'dayjs';
 import { useAuth } from '../hooks/useAuth';
 import { useState, useEffect } from 'react';
@@ -49,44 +51,276 @@ export function PostDetail() {
 
   if (!data) return null;
   return (
-    <Stack spacing={2}>
-      <Stack direction="row" spacing={1} alignItems="center">
-        <Typography variant="h4" fontWeight={700}>{data.title}</Typography>
-        {isAuthor && (
-          <>
-            <IconButton color="primary" onClick={() => { setEditing(true); setEditTitle(data.title); setEditBody(data.body); }}><EditIcon /></IconButton>
-            <IconButton color="error" onClick={() => deletePost.mutate()}><DeleteIcon /></IconButton>
-          </>
-        )}
-      </Stack>
-      <Typography color="text.secondary">By {data.author.username} • {dayjs(data.createdAt).format('MMM D, YYYY')}</Typography>
-      <Typography>{data.body}</Typography>
+    <Stack spacing={4} sx={{ maxWidth: '900px' }}>
+      {/* Header Section */}
+      <Box sx={{ pb: 3, borderBottom: '2px solid #EBE3DB' }}>
+        <Stack direction="row" spacing={1} alignItems="flex-start" sx={{ mb: 2 }}>
+          <Box sx={{ flex: 1 }}>
+            <Typography 
+              variant="h3" 
+              fontWeight={800} 
+              sx={{ 
+                color: '#3E3530',
+                lineHeight: 1.3,
+                letterSpacing: '-0.5px'
+              }}
+            >
+              {data.title}
+            </Typography>
+          </Box>
+          {isAuthor && (
+            <Stack direction="row" spacing={0.5}>
+              <IconButton 
+                size="small" 
+                sx={{ 
+                  color: '#8B6F47',
+                  bgcolor: '#F5F1ED',
+                  '&:hover': { bgcolor: '#EBE3DB' }
+                }} 
+                onClick={() => { setEditing(true); setEditTitle(data.title); setEditBody(data.body); }}
+              >
+                <EditIcon fontSize="small" />
+              </IconButton>
+              <IconButton 
+                size="small" 
+                sx={{ 
+                  color: '#C85450',
+                  bgcolor: '#FFE8E8',
+                  '&:hover': { bgcolor: '#FFD6D6' }
+                }} 
+                onClick={() => deletePost.mutate()}
+              >
+                <DeleteIcon fontSize="small" />
+              </IconButton>
+            </Stack>
+          )}
+        </Stack>
+
+        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} alignItems="flex-start">
+          <Box>
+            <Typography 
+              variant="body2" 
+              sx={{ 
+                color: '#8B7D77', 
+                fontSize: '0.95rem',
+                fontWeight: 500,
+                mb: 0.5
+              }}
+            >
+              By <strong>{data.author.username}</strong>
+            </Typography>
+            <Typography 
+              variant="caption" 
+              sx={{ 
+                color: '#8B7D77',
+                fontSize: '0.85rem'
+              }}
+            >
+              Published on {dayjs(data.createdAt).format('MMMM D, YYYY')}
+            </Typography>
+          </Box>
+        </Stack>
+      </Box>
+
+      {/* Content Section */}
+      <Typography 
+        sx={{ 
+          color: '#3E3530', 
+          lineHeight: 1.9, 
+          fontSize: '1.1rem',
+          whiteSpace: 'pre-wrap',
+          wordBreak: 'break-word'
+        }}
+      >
+        {data.body}
+      </Typography>
+
+      {/* Edit Form */}
       {editing && isAuthor && (
-        <Box component="form" onSubmit={(e) => { e.preventDefault(); updatePost.mutate(); }} sx={{ my: 2 }}>
-          <TextField value={editTitle} onChange={(e) => setEditTitle(e.target.value)} fullWidth sx={{ mb: 1 }} />
-          <TextField value={editBody} onChange={(e) => setEditBody(e.target.value)} multiline minRows={6} fullWidth sx={{ mb: 2 }} />
+        <Box 
+          component="form" 
+          onSubmit={(e) => { e.preventDefault(); updatePost.mutate(); }} 
+          sx={{ 
+            p: 3, 
+            bgcolor: '#FFFCF9', 
+            borderRadius: 2, 
+            border: '2px solid #D4C5B9',
+            my: 2
+          }}
+        >
+          <Typography variant="h6" sx={{ fontWeight: 700, color: '#3E3530', mb: 2 }}>
+            Edit Post
+          </Typography>
+          <TextField 
+            label="Title" 
+            value={editTitle} 
+            onChange={(e) => setEditTitle(e.target.value)} 
+            fullWidth 
+            sx={{ mb: 2 }}
+          />
+          <TextField 
+            label="Body" 
+            value={editBody} 
+            onChange={(e) => setEditBody(e.target.value)} 
+            multiline 
+            minRows={8} 
+            fullWidth 
+            sx={{ mb: 2 }} 
+          />
           <Stack direction="row" spacing={1}>
-            <Button variant="contained" type="submit">Save</Button>
-            <Button onClick={() => setEditing(false)}>Cancel</Button>
+            <Button 
+              variant="contained" 
+              type="submit"
+              startIcon={<SaveIcon />}
+              sx={{ bgcolor: '#8B6F47' }}
+            >
+              Save Changes
+            </Button>
+            <Button 
+              onClick={() => setEditing(false)}
+              startIcon={<CancelIcon />}
+              sx={{ color: '#8B6F47' }}
+            >
+              Cancel
+            </Button>
           </Stack>
         </Box>
       )}
-      <Divider sx={{ my: 2 }} />
-      <Typography variant="h6">Comments</Typography>
-      <Stack spacing={1}>
-        {(data as any).comments?.map((c: Cmt) => (
-          <Paper key={c.id} sx={{ p: 2 }}>
-            <Typography variant="body2">{c.content}</Typography>
-            <Typography variant="caption" color="text.secondary">{c.author.username} • {dayjs(c.createdAt).format('MMM D, YYYY')}</Typography>
-          </Paper>
-        ))}
-      </Stack>
-      {user && !isAuthor && (
-        <Box component="form" onSubmit={(e) => { e.preventDefault(); addComment.mutate(); }}>
-          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1}>
-            <TextField value={content} onChange={(e) => setContent(e.target.value)} fullWidth placeholder="Write a comment..." />
-            <Button type="submit" variant="contained">Post</Button>
+
+      {/* Comments Section */}
+      <Box sx={{ pt: 3, borderTop: '2px solid #EBE3DB' }}>
+        <Typography 
+          variant="h5" 
+          sx={{ 
+            fontWeight: 700, 
+            color: '#3E3530',
+            mb: 3,
+            fontSize: '1.4rem'
+          }}
+        >
+          Comments {(data as any).comments?.length > 0 && `(${(data as any).comments.length})`}
+        </Typography>
+
+        {((data as any).comments?.length ?? 0) === 0 ? (
+          <Typography 
+            sx={{ 
+              color: '#8B7D77',
+              fontStyle: 'italic',
+              py: 2
+            }}
+          >
+            No comments yet. Be the first to comment!
+          </Typography>
+        ) : (
+          <Stack spacing={2.5} sx={{ mb: 4 }}>
+            {(data as any).comments?.map((c: Cmt) => (
+              <Paper 
+                key={c.id} 
+                sx={{ 
+                  p: 3, 
+                  bgcolor: '#FFFCF9',
+                  borderLeft: '4px solid #8B6F47',
+                  borderRadius: '8px'
+                }}
+              >
+                <Stack direction="row" justifyContent="space-between" alignItems="flex-start" sx={{ mb: 1 }}>
+                  <Typography 
+                    variant="subtitle2" 
+                    sx={{ 
+                      fontWeight: 700, 
+                      color: '#3E3530'
+                    }}
+                  >
+                    {c.author.username}
+                  </Typography>
+                  <Typography 
+                    variant="caption" 
+                    sx={{ 
+                      color: '#8B7D77',
+                      fontSize: '0.8rem'
+                    }}
+                  >
+                    {dayjs(c.createdAt).format('MMM D, YYYY')}
+                  </Typography>
+                </Stack>
+                <Typography 
+                  variant="body2" 
+                  sx={{ 
+                    color: '#3E3530',
+                    lineHeight: 1.7,
+                    whiteSpace: 'pre-wrap'
+                  }}
+                >
+                  {c.content}
+                </Typography>
+              </Paper>
+            ))}
           </Stack>
+        )}
+      </Box>
+
+      {/* Add Comment Form */}
+      {user && !isAuthor && (
+        <Box 
+          component="form" 
+          onSubmit={(e) => { e.preventDefault(); addComment.mutate(); }} 
+          sx={{ 
+            p: 3,
+            bgcolor: '#FFFCF9',
+            borderRadius: 2,
+            border: '2px solid #D4C5B9',
+            mt: 3
+          }}
+        >
+          <Typography variant="h6" sx={{ fontWeight: 700, color: '#3E3530', mb: 2 }}>
+            Leave a Comment
+          </Typography>
+          <Stack spacing={2}>
+            <TextField 
+              value={content} 
+              onChange={(e) => setContent(e.target.value)} 
+              fullWidth 
+              multiline
+              minRows={3}
+              placeholder="Share your thoughts..." 
+              sx={{ '& .MuiOutlinedInput-root': { borderRadius: '8px' } }}
+            />
+            <Button 
+              type="submit" 
+              variant="contained" 
+              sx={{ bgcolor: '#8B6F47', alignSelf: 'flex-start' }}
+            >
+              Post Comment
+            </Button>
+          </Stack>
+        </Box>
+      )}
+
+      {user && isAuthor && (
+        <Typography 
+          sx={{ 
+            color: '#8B7D77',
+            fontStyle: 'italic',
+            textAlign: 'center',
+            py: 2
+          }}
+        >
+          You cannot comment on your own post
+        </Typography>
+      )}
+
+      {!user && (
+        <Box 
+          sx={{ 
+            p: 3,
+            bgcolor: '#F5F1ED',
+            borderRadius: 2,
+            textAlign: 'center'
+          }}
+        >
+          <Typography sx={{ color: '#8B7D77', mb: 1 }}>
+            Sign in to leave a comment
+          </Typography>
         </Box>
       )}
     </Stack>
